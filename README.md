@@ -1,2 +1,2 @@
 # iracing
-Run boy run
+Node.js lib for iRacing data api

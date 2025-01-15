@@ -4,8 +4,9 @@
 	"description": "Node.js lib for iRacing data api",
 	"type": "module",
 	"scripts": {
-		"call": "cd src && node --env-file=../.env",
-		"check": "biome check --write"
+		"api": "node --env-file=./.env index.js",
+		"check": "biome check --write",
+		"login": "node --env-file=./.env login.js"
 	},
 	"author": "",
 	"license": "MIT",

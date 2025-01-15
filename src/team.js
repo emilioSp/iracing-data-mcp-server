@@ -1,17 +1,24 @@
-import { readFileSync } from 'node:fs';
-const authCookie = readFileSync(process.env.COOKIE_JAR, 'utf8');
+import { storage } from '../storage.js';
+import { API_BASE_URL } from './constant.js';
 
-const headers = new Headers();
-headers.append('Cookie', authCookie);
+export const team = async () => {
+	const { authCookie } = storage.getStore();
 
-const response = await fetch(
-	'https://members-ng.iracing.com/data/team/get?team_id=364887',
-	{
+	const headers = new Headers();
+	headers.append('Cookie', authCookie);
+
+	const response = await fetch(`${API_BASE_URL}/team/get?team_id=364887`, {
 		method: 'GET',
 		headers,
 		redirect: 'follow',
-	},
-).then((response) => response.json());
+	});
 
-const data = await fetch(response.link).then((response) => response.json());
-console.log(data);
+	const body = await response.json();
+
+	if (!response.ok) {
+		throw new Error(JSON.stringify(body));
+	}
+
+	const data = await fetch(body.link).then((response) => response.json());
+	console.log(data);
+};

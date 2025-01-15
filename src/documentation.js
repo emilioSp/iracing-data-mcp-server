@@ -1,17 +1,19 @@
-import { readFileSync } from 'node:fs';
 import { writeFileSync } from 'node:fs';
+import { storage } from '../storage.js';
+import { API_BASE_URL } from './constant.js';
 
-const authCookie = readFileSync(process.env.COOKIE_JAR, 'utf8');
+export const documentation = async () => {
+	const { authCookie } = storage.getStore();
+	const headers = new Headers();
+	headers.append('Cookie', authCookie);
 
-const headers = new Headers();
-headers.append('Cookie', authCookie);
+	const response = await fetch(`${API_BASE_URL}/doc`, {
+		method: 'GET',
+		headers,
+		redirect: 'follow',
+	});
 
-const response = await fetch('https://members-ng.iracing.com/data/doc', {
-	method: 'GET',
-	headers,
-	redirect: 'follow',
-});
-
-const data = await response.text();
-writeFileSync('./documentation.json', data);
-console.log('ok');
+	const data = await response.text();
+	writeFileSync('./documentation.json', data);
+	console.log('ok');
+};

@@ -15,9 +15,9 @@ const response = await fetch('https://members-ng.iracing.com/auth', {
 		email: process.env.EMAIL,
 		password: process.env.PASSWORD,
 	}),
-}).then((response) => response.json());
+});
 
-const { authcode } = response;
+const { authcode } = await response.json();
 
 const cookieJar = tough.parse(response.headers.get('set-cookie')).clone();
 cookieJar.key = 'authtoken_members';

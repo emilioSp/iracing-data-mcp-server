@@ -5,7 +5,7 @@ Work in progress 🏗️
 <a href="https://www.buymeacoffee.com/emiliosp" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ```
-npm run call login
-npm run call team
+npm run api team
+npm run api member
 ...
 ```

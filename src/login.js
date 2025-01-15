@@ -1,10 +1,10 @@
-import { writeFileSync } from 'fs';
-import { createHash } from 'node:crypto';
+import { writeFileSync } from 'node:fs';
 import tough from 'tough-cookie';
 
-// Define the email and password
-const email = process.env.EMAIL;
-const password = process.env.PASSWORD;
+// // https://forums.iracing.com/discussion/15068/general-availability-of-data-api/p1
+// console.log(createHash('sha256').update(`${password}${email}`).digest('base64'));
+// process.exit(1);
+// remember to enable legacy authentication in your account settings
 
 const response = await fetch('https://members-ng.iracing.com/auth', {
   method: 'POST',
@@ -12,22 +12,22 @@ const response = await fetch('https://members-ng.iracing.com/auth', {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    email: email,
-    password: createHash('sha256').update(`${password}${email}`).digest('base64')
+    email: process.env.EMAIL,
+    password: process.env.PASSWORD,
   })
-});
+}).then((response) => response.json());
 
-const { authcode } = await response.json();
+const { authcode } = response;
 
-const authCookie = tough.parse(response.headers.get('set-cookie')).clone();
-authCookie.key = 'authtoken_members';
-authCookie.value = JSON.stringify({
+const cookieJar = tough.parse(response.headers.get('set-cookie')).clone();
+cookieJar.key = 'authtoken_members';
+cookieJar.value = JSON.stringify({
   authtoken:
     {
       authcode,
-      email
+      email: process.env.EMAIL
     }
 });
 
-writeFileSync(process.env.AUTHCOOKIE_FILE_NAME, authCookie.toString());
+writeFileSync(process.env.COOKIE_JAR, cookieJar.toString());
 console.log('ok');

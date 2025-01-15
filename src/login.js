@@ -7,14 +7,14 @@ import tough from 'tough-cookie';
 // remember to enable legacy authentication in your account settings
 
 const response = await fetch('https://members-ng.iracing.com/auth', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: process.env.EMAIL,
-    password: process.env.PASSWORD,
-  })
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+	},
+	body: JSON.stringify({
+		email: process.env.EMAIL,
+		password: process.env.PASSWORD,
+	}),
 }).then((response) => response.json());
 
 const { authcode } = response;
@@ -22,11 +22,10 @@ const { authcode } = response;
 const cookieJar = tough.parse(response.headers.get('set-cookie')).clone();
 cookieJar.key = 'authtoken_members';
 cookieJar.value = JSON.stringify({
-  authtoken:
-    {
-      authcode,
-      email: process.env.EMAIL
-    }
+	authtoken: {
+		authcode,
+		email: process.env.EMAIL,
+	},
 });
 
 writeFileSync(process.env.COOKIE_JAR, cookieJar.toString());

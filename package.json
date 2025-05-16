@@ -4,12 +4,9 @@
 	"description": "Node.js lib for iRacing data api",
 	"type": "module",
 	"scripts": {
-		"build": "tsc",
-		"dev": "tsc --watch",
-		"api": "node --env-file=./.env dist/index.js",
+		"api": "node --experimental-strip-types --env-file=./.env src/index.ts",
 		"check": "biome check --write",
-		"login": "node --env-file=./.env dist/login.js",
-		"typecheck": "tsc --noEmit"
+		"login": "node --experimental-strip-types --env-file=./.env src/login.ts"
 	},
 	"author": "",
 	"license": "MIT",
@@ -18,8 +15,6 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@types/node": "20.11.30",
-		"@types/tough-cookie": "4.0.5",
-		"typescript": "5.4.3"
+		"@types/tough-cookie": "^4.0.5"
 	}
 }

@@ -5,7 +5,63 @@ interface TeamResponse {
   link: string;
 }
 
-export const team = async (): Promise<void> => {
+interface Helmet {
+  pattern: number;
+  color1: string;
+  color2: string;
+  color3: string;
+  face_type: number;
+  helmet_type: number;
+}
+
+interface TeamMember {
+  cust_id: number;
+  display_name: string;
+  helmet: Helmet;
+  owner: boolean;
+  admin: boolean;
+}
+
+interface TeamSuit {
+  pattern: number;
+  color1: string;
+  color2: string;
+  color3: string;
+}
+
+interface TeamTags {
+  categorized: string[];
+  not_categorized: string[];
+}
+
+interface TeamData {
+  team_id: number;
+  owner_id: number;
+  team_name: string;
+  created: string;
+  hidden: boolean;
+  message: string;
+  about: string;
+  url: string;
+  roster_count: number;
+  recruiting: boolean;
+  private_wall: boolean;
+  is_default: boolean;
+  is_owner: boolean;
+  is_admin: boolean;
+  suit: TeamSuit;
+  owner: TeamMember;
+  tags: TeamTags;
+  team_applications: unknown[];
+  pending_requests: unknown[];
+  is_member: boolean;
+  is_applicant: boolean;
+  is_invite: boolean;
+  is_ignored: boolean;
+  roster: TeamMember[];
+}
+
+export const team = async (): Promise<TeamData> => {
   const store = storage.getStore();
   if (!store) {
     throw new Error('Storage context not found');
@@ -27,6 +83,6 @@ export const team = async (): Promise<void> => {
     throw new Error(JSON.stringify(body));
   }
 
-  const data = await fetch(body.link).then((response) => response.json());
-  console.log(data);
+  const data = await fetch(body.link).then((response) => response.json()) as TeamData;
+  return data;
 }; 

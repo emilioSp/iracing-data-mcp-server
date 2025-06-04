@@ -5,7 +5,7 @@
   "files": ["dist"],
   "main": "dist/index.js",
   "bin": {
-    "iracing-data-mcp": "dist/mcp-server.js"
+    "iracing-data-mcp-server": "dist/mcp-server.js"
   },
   "type": "module",
   "scripts": {

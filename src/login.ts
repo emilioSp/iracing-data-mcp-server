@@ -66,5 +66,4 @@ export async function performLogin() {
   });
 
   writeFileSync(process.env.COOKIE_JAR, cookieJar.toString());
-  console.log('ok');
 }

@@ -1,8 +1,10 @@
 {
   "name": "iracing-data-mcp-server",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "Node.js mcp server for iRacing data api",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "bin": {
     "iracing-data-mcp-server": "dist/mcp-server.js"

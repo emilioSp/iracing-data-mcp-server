@@ -7,34 +7,37 @@ interface MemberRecapParams {
   season?: number;
 }
 
-interface CategoryStats {
-  category_id: number;
-  category: string;
-  category_name: string;
+interface FavoriteCar {
+  car_id: number;
+  car_name: string;
+  car_image: string;
+}
+
+interface FavoriteTrack {
+  config_name: string;
+  track_id: number;
+  track_logo: string;
+  track_name: string;
+}
+
+interface RecapStats {
   starts: number;
   wins: number;
   top5: number;
-  laps: number;
-  laps_led: number;
   avg_start_position: number;
   avg_finish_position: number;
-  avg_field_size: number;
-  avg_incidents: number;
-  avg_points: number;
-  win_percentage: number;
-  top5_percentage: number;
-  laps_led_percentage: number;
-}
-
-interface SeasonStats extends CategoryStats {
-  year: number;
-  season: number;
+  laps: number;
+  laps_led: number;
+  favorite_car: FavoriteCar;
+  favorite_track: FavoriteTrack;
 }
 
 interface MemberRecapData {
-  member_id: number;
-  yearly_summary?: CategoryStats[];
-  season_summary?: SeasonStats[];
+  year: number;
+  stats: RecapStats;
+  success: boolean;
+  season: number | null;
+  cust_id: number;
 }
 
 export const memberRecap = async (

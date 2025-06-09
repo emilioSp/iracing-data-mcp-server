@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 import { readFileSync } from 'node:fs';
-import { documentation, member, team, memberRecap } from './src/index.js';
+import {
+  documentation,
+  member,
+  team,
+  memberRecap,
+  memberCareer,
+} from './src/index.js';
 import { performLogin } from './src/login.js';
 import { storage } from './storage.js';
 
@@ -36,7 +42,13 @@ if (diff <= 60_000) {
   authCookie = readFileSync(process.env.COOKIE_JAR, 'utf8');
 }
 
-type ApiFunction = 'documentation' | 'team' | 'member' | 'member_recap';
+type ApiFunction =
+  | 'documentation'
+  | 'team'
+  | 'member'
+  | 'member_recap'
+  | 'member_career';
+
 storage.run({ authCookie }, async () => {
   const [api, ids] = process.argv.slice(2) as [ApiFunction, string?];
   if (!api) {
@@ -84,6 +96,11 @@ storage.run({ authCookie }, async () => {
 
       const recapData = await memberRecap(params);
       console.log(JSON.stringify(recapData, null, 2));
+      break;
+    }
+    case 'member_career': {
+      const careerData = await memberCareer(Number(ids));
+      console.log(JSON.stringify(careerData, null, 2));
       break;
     }
     default:

@@ -5,7 +5,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { readFileSync } from 'node:fs';
 import { z } from 'zod';
 import { performLogin } from './src/login.js';
-import { member, team, memberRecap } from './src/index.js';
+import { member, team, memberRecap, memberCareer } from './src/index.js';
 import { storage } from './storage.js';
 
 const server = new McpServer({
@@ -162,6 +162,34 @@ server.tool(
       return {
         content: [
           { type: 'text', text: `Failed to get member recap: ${errorMessage}` },
+        ],
+      };
+    }
+  },
+);
+
+server.tool(
+  'get_member_career',
+  {
+    member_id: z.number(),
+  },
+  async ({ member_id }) => {
+    try {
+      const careerData = await withStorageContext(() =>
+        memberCareer(member_id),
+      );
+      return {
+        content: [{ type: 'text', text: JSON.stringify(careerData, null, 2) }],
+      };
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `Failed to get member career: ${errorMessage}`,
+          },
         ],
       };
     }

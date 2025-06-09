@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import { readFileSync } from 'node:fs';
+import { Command } from 'commander';
 import {
   documentation,
   member,
-  team,
-  memberRecap,
   memberCareer,
+  memberRecap,
+  team,
 } from './src/index.js';
 import { performLogin } from './src/login.js';
 import { storage } from './storage.js';
@@ -42,68 +43,77 @@ if (diff <= 60_000) {
   authCookie = readFileSync(process.env.COOKIE_JAR, 'utf8');
 }
 
-type ApiFunction =
-  | 'documentation'
-  | 'team'
-  | 'member'
-  | 'member_recap'
-  | 'member_career';
+const program = new Command();
 
-storage.run({ authCookie }, async () => {
-  const [api, ids] = process.argv.slice(2) as [ApiFunction, string?];
-  if (!api) {
-    throw new Error('API function not specified. Usage: <api> [ids]');
-  }
+program.name('iracing-data-cli').description('CLI for iRacing Data API');
 
-  switch (api) {
-    case 'documentation':
+// Documentation command
+program
+  .command('documentation')
+  .description('Get API documentation')
+  .action(async () => {
+    await storage.run({ authCookie }, async () => {
       await documentation();
-      break;
-    case 'team': {
-      if (!ids) {
-        throw new Error('Team ID not specified. Usage: team <team_id>');
-      }
-      if (ids.split(',').length > 1) {
-        throw new Error(
-          'Multiple team IDs are not supported. Please provide a single team ID.',
-        );
-      }
-      const teamData = await team(ids);
+    });
+  });
+
+// Team command
+program
+  .command('team')
+  .description('Get team data')
+  .argument('<team_id>', 'Team ID to fetch data for')
+  .action(async (teamId: string) => {
+    await storage.run({ authCookie }, async () => {
+      const teamData = await team(teamId);
       console.log(JSON.stringify(teamData, null, 2));
-      break;
-    }
-    case 'member': {
-      if (!ids) {
-        throw new Error('Member IDs not specified. Usage: member <member_ids>');
-      }
-      const memberData = await member(ids);
+    });
+  });
+
+// Member command
+program
+  .command('member')
+  .description('Get member profile data')
+  .argument('<member_ids>', 'Comma-separated member IDs to fetch data for')
+  .action(async (memberIds: string) => {
+    await storage.run({ authCookie }, async () => {
+      const memberData = await member(memberIds);
       console.log(JSON.stringify(memberData, null, 2));
-      break;
-    }
-    case 'member_recap': {
-      // Parse parameters for member_recap
-      const params: { cust_id?: number; year?: number; season?: number } = {};
+    });
+  });
 
-      if (ids) {
-        const paramPairs = ids.split(',');
-        for (const pair of paramPairs) {
-          const [key, value] = pair.split('=');
-          if (key === 'cust_id') params.cust_id = Number(value);
-          if (key === 'year') params.year = Number(value);
-          if (key === 'season') params.season = Number(value);
-        }
-      }
-
-      const recapData = await memberRecap(params);
+// Member recap command
+program
+  .command('member-recap')
+  .description('Get member recap data')
+  .requiredOption('--member-id <number>', 'Customer ID', (value) =>
+    Number(value),
+  )
+  .option('--year <number>', 'Year', (value) => Number(value))
+  .option('--season <number>', 'Season', (value) => Number(value))
+  .action(async (options) => {
+    await storage.run({ authCookie }, async () => {
+      const recapData = await memberRecap({
+        member_id: options.custId,
+        year: options.year,
+        season: options.season,
+      });
       console.log(JSON.stringify(recapData, null, 2));
-      break;
-    }
-    case 'member_career': {
-      const careerData = await memberCareer(Number(ids));
+    });
+  });
+
+// Member career command
+program
+  .command('member-career')
+  .description('Get member career data')
+  .argument('<member_id>', 'Member ID to fetch career data for', (value) =>
+    Number.parseInt(value, 10),
+  )
+  .action(async (memberId: number) => {
+    await storage.run({ authCookie }, async () => {
+      const careerData = await memberCareer(memberId);
       console.log(JSON.stringify(careerData, null, 2));
-      break;
-    }
-    default:
-      throw new Error(`api not defined ${api}`);
-  }
-});
+    });
+  });
+
+// Parse command line arguments
+program.parse();

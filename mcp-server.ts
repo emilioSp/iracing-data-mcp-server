@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
+import { readFileSync } from 'node:fs';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { readFileSync } from 'node:fs';
 import { z } from 'zod';
+import { member, memberCareer, memberRecap, team } from './src/index.js';
 import { performLogin } from './src/login.js';
-import { member, team, memberRecap, memberCareer } from './src/index.js';
 import { storage } from './storage.js';
 
 const server = new McpServer({

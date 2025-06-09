@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { readFileSync } from 'node:fs';
-import { documentation, member, team } from './src/index.js';
+import { documentation, member, team, memberRecap } from './src/index.js';
 import { performLogin } from './src/login.js';
 import { storage } from './storage.js';
 
@@ -11,7 +11,6 @@ if (!process.env.COOKIE_JAR) {
 let authCookie: string;
 try {
   authCookie = readFileSync(process.env.COOKIE_JAR, 'utf8');
-  console.log('Auth cookie loaded successfully.');
 } catch {
   await performLogin();
   authCookie = readFileSync(process.env.COOKIE_JAR, 'utf8');
@@ -31,21 +30,17 @@ for (const part of cookieParts) {
 const expiresDate = new Date(cookieExpires || '');
 const now = new Date();
 const diff = expiresDate.getTime() - now.getTime();
-console.log(diff);
 
 if (diff <= 60_000) {
   await performLogin();
   authCookie = readFileSync(process.env.COOKIE_JAR, 'utf8');
 }
 
-type ApiFunction = 'documentation' | 'team' | 'member' | 'test';
+type ApiFunction = 'documentation' | 'team' | 'member' | 'member_recap';
 storage.run({ authCookie }, async () => {
   const [api, ids] = process.argv.slice(2) as [ApiFunction, string?];
   if (!api) {
     throw new Error('API function not specified. Usage: <api> [ids]');
-  }
-  if (!ids) {
-    throw new Error('ids not specified. Usage: <api> [ids]');
   }
 
   switch (api) {
@@ -53,16 +48,42 @@ storage.run({ authCookie }, async () => {
       await documentation();
       break;
     case 'team': {
+      if (!ids) {
+        throw new Error('Team ID not specified. Usage: team <team_id>');
+      }
       if (ids.split(',').length > 1) {
-        throw new Error('Multiple team IDs are not supported. Please provide a single team ID.');
+        throw new Error(
+          'Multiple team IDs are not supported. Please provide a single team ID.',
+        );
       }
       const teamData = await team(ids);
       console.log(JSON.stringify(teamData, null, 2));
       break;
     }
     case 'member': {
+      if (!ids) {
+        throw new Error('Member IDs not specified. Usage: member <member_ids>');
+      }
       const memberData = await member(ids);
       console.log(JSON.stringify(memberData, null, 2));
+      break;
+    }
+    case 'member_recap': {
+      // Parse parameters for member_recap
+      const params: { cust_id?: number; year?: number; season?: number } = {};
+
+      if (ids) {
+        const paramPairs = ids.split(',');
+        for (const pair of paramPairs) {
+          const [key, value] = pair.split('=');
+          if (key === 'cust_id') params.cust_id = Number(value);
+          if (key === 'year') params.year = Number(value);
+          if (key === 'season') params.season = Number(value);
+        }
+      }
+
+      const recapData = await memberRecap(params);
+      console.log(JSON.stringify(recapData, null, 2));
       break;
     }
     default:

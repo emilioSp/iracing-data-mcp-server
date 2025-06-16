@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { Command } from 'commander';
 import {
-  documentation,
+  documentation, driverLookup,
   member,
   memberCareer,
   memberRecap,
@@ -112,6 +112,17 @@ program
     await storage.run({ authCookie }, async () => {
       const careerData = await memberCareer(memberId);
       console.log(JSON.stringify(careerData, null, 2));
+    });
+  });
+
+program
+  .command('driver-lookup')
+  .description('Get driver lookup data')
+  .argument('<driver_name>', 'Driver to fetch data for')
+  .action(async (driverName: string) => {
+    await storage.run({ authCookie }, async () => {
+      const driverData = await driverLookup(driverName);
+      console.log(JSON.stringify(driverData, null, 2));
     });
   });
 

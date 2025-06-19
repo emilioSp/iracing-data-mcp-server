@@ -65,8 +65,7 @@ The server will run and provide the following tools to AI assistants:
 | `get_member_career` | Get career statistics | `member_id: number` |
 | `driver_lookup` | Search for drivers | `driver_name: string` |
 
-[Claude_MCP_integration.mov](Claude_MCP_integration.mov)
-
+[![Watch the video](https://img.youtube.com/vi/wW0vFJqwk7w/0.jpg)](https://www.youtube.com/watch?v=wW0vFJqwk7w)
 
 ### As CLI Tool
 

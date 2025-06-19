@@ -81,3 +81,5 @@ node_modules
 cookie-jar
 dist/
 .history
+
+.DS_Store

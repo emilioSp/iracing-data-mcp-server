@@ -81,7 +81,7 @@ To use this MCP server with AI assistants like Claude Desktop, add the following
       "args": [
         "iracing-data-mcp-server@latest",
         "@modelcontextprotocol/server-filesystem",
-        "/path/to/your/cookie-jar"
+        "/path/to/your/cookie-jar-file"
       ]
       "env": {
         "COOKIE_JAR": "/path/to/your/cookie-jar-file",
@@ -160,7 +160,7 @@ npm run api documentation
 
 ### Prerequisites
 - Node.js 24+ 
-- npm or yarn
+- npm
 - iRacing account with active subscription
 
 ### Clone and Install

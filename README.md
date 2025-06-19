@@ -93,17 +93,8 @@ To use this MCP server with AI assistants like Claude Desktop, add the following
 }
 ```
 
-#### Running the Server
-
-Start the MCP server for AI assistant integration:
-
-```bash
-iracing-data-mcp-server
-```
-
-The server will run and provide the following tools to AI assistants:
-
 #### Available MCP Tools
+The server will run and provide the following tools to AI assistants:
 
 | Tool | Description | Parameters |
 |------|-------------|------------|

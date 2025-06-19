@@ -30,9 +30,7 @@ A Node.js Model Context Protocol (MCP) server that provides seamless access to i
 ### As MCP Server
 
 #### Configuration for LLM Clients
-
 To use this MCP server with AI assistants like Claude Desktop, add the following configuration to your MCP settings file:
-
 **For Claude Desktop** (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
 
 ```json
@@ -66,6 +64,9 @@ The server will run and provide the following tools to AI assistants:
 | `get_member_recap` | Get season recap data | `member_id: number`, `year?: number`, `season?: number` |
 | `get_member_career` | Get career statistics | `member_id: number` |
 | `driver_lookup` | Search for drivers | `driver_name: string` |
+
+[Claude_MCP_integration.mov](Claude_MCP_integration.mov)
+
 
 ### As CLI Tool
 

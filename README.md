@@ -27,12 +27,6 @@ A Node.js Model Context Protocol (MCP) server that provides seamless access to i
 
 ## 🚀 Quick Start
 
-### Installation
-
-```bash
-npm install -g iracing-data-mcp-server
-```
-
 ### Environment Setup
 
 Create a `.env` file in your project directory:

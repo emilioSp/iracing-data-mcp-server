@@ -67,6 +67,34 @@ iracing-data-mcp-server login
 
 ### As MCP Server
 
+#### Configuration for LLM Clients
+
+To use this MCP server with AI assistants like Claude Desktop, add the following configuration to your MCP settings file:
+
+**For Claude Desktop** (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+
+```json
+{
+  "mcpServers": {
+    "iracing-data-mcp-server": {
+      "command": "npx",
+      "args": [
+        "iracing-data-mcp-server@latest",
+        "@modelcontextprotocol/server-filesystem",
+        "/path/to/your/cookie-jar"
+      ]
+      "env": {
+        "COOKIE_JAR": "/path/to/your/cookie-jar-file",
+        "EMAIL": "your.email@example.com",
+        "API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+#### Running the Server
+
 Start the MCP server for AI assistant integration:
 
 ```bash

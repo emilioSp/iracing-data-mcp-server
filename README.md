@@ -25,38 +25,6 @@ A Node.js Model Context Protocol (MCP) server that provides seamless access to i
 - **MCP Server**: For AI assistant integration
 - **CLI Tool**: For direct command-line access and automation
 
-## 🚀 Quick Start
-
-### Environment Setup
-
-Create a `.env` file in your project directory:
-
-```env
-# Required: Path to store authentication cookies
-COOKIE_JAR=./cookies.txt
-
-# Required: Your iRacing account credentials
-EMAIL=your.email@example.com
-
-# Option 1: Use your iRacing password
-PASSWORD=your_password
-
-# Option 2: Use pre-generated API key (recommended for security)
-# API_KEY=your_api_key_here
-```
-
-### Initial Authentication
-
-Before using the server, authenticate with iRacing:
-
-```bash
-# Using npm script (if cloned from source)
-npm run login
-
-# Or using the CLI directly
-iracing-data-mcp-server login
-```
-
 ## 📖 Usage
 
 ### As MCP Server
@@ -100,6 +68,32 @@ The server will run and provide the following tools to AI assistants:
 | `driver_lookup` | Search for drivers | `driver_name: string` |
 
 ### As CLI Tool
+
+#### Environment Setup
+
+Create a `.env` file in your project directory:
+
+```env
+# Required: Path to store authentication cookies
+COOKIE_JAR=./cookies.txt
+
+# Required: Your iRacing account credentials
+EMAIL=your.email@example.com
+
+# Option 1: Use your iRacing password
+PASSWORD=your_password
+
+# Option 2: Use pre-generated API key (recommended for security)
+# API_KEY=your_api_key_here
+```
+
+#### Initial Authentication
+
+Before using the cli, authenticate with iRacing:
+
+```bash
+npm run login
+```
 
 Use the command-line interface for direct data access:
 

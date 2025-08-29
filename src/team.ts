@@ -1,5 +1,5 @@
-import { API_BASE_URL } from './constant.js';
-import { fetchData } from './repository/api.js';
+import { API_BASE_URL } from './constant.ts';
+import { fetchData } from './repository/api.ts';
 
 interface Helmet {
   pattern: number;

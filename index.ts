@@ -2,7 +2,8 @@
 import { readFileSync } from 'node:fs';
 import { Command } from 'commander';
 import {
-  documentation, driverLookup,
+  documentation,
+  driverLookup,
   member,
   memberCareer,
   memberRecap,

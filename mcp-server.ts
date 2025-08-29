@@ -4,7 +4,13 @@ import { readFileSync } from 'node:fs';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
-import {driverLookup, member, memberCareer, memberRecap, team} from './src/index.js';
+import {
+  driverLookup,
+  member,
+  memberCareer,
+  memberRecap,
+  team,
+} from './src/index.js';
 import { performLogin } from './src/login.js';
 import { storage } from './storage.js';
 
@@ -196,9 +202,11 @@ server.tool(
   },
 );
 
-server.tool('driver_lookup', {
-  driver_name: z.string()
-},
+server.tool(
+  'driver_lookup',
+  {
+    driver_name: z.string(),
+  },
   async ({ driver_name }) => {
     try {
       const driverData = await withStorageContext(() =>
@@ -216,7 +224,8 @@ server.tool('driver_lookup', {
         ],
       };
     }
-});
+  },
+);
 
 // Start the server
 const transport = new StdioServerTransport();

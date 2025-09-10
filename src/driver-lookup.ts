@@ -1,5 +1,5 @@
-import { API_BASE_URL } from './constant.ts';
-import { fetchData } from './repository/api.ts';
+import { API_BASE_URL } from './constant.js';
+import { fetchData } from './repository/api.js';
 
 export const driverLookup = async (driverName: string): Promise<any> => {
   const queryParams = new URLSearchParams();

@@ -1,6 +1,6 @@
 import { writeFileSync } from 'node:fs';
-import { storage } from '../storage.ts';
-import { API_BASE_URL } from './constant.ts';
+import { storage } from '../storage.js';
+import { API_BASE_URL } from './constant.js';
 
 export const documentation = async (): Promise<void> => {
   const store = storage.getStore();

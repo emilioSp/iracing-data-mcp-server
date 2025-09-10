@@ -8,9 +8,9 @@ import {
   memberCareer,
   memberRecap,
   team,
-} from './src/index.ts';
-import { performLogin } from './src/login.ts';
-import { storage } from './storage.ts';
+} from './src/index.js';
+import { performLogin } from './src/login.js';
+import { storage } from './storage.js';
 
 if (!process.env.COOKIE_JAR) {
   throw new Error('COOKIE_JAR environment variable is not set');
